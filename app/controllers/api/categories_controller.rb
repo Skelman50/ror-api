@@ -17,22 +17,25 @@ class Api::CategoriesController < ApplicationController
   end
 
   def update
-    category = Category.find(params[:id])
-    category.update(categories_params)
-    head :ok
+    response = CategoriesServices::Update.new(categories_params, params[:id]).call
+    if response[:success]
+      head :ok
+    else
+      render json: response, status: 404
+    end
   end
 
   def destroy_by_id
-    category = Category.find(params[:id])
-    if category.destroy
+    response = CategoriesServices::DestroyById.new(params).call
+    if response[:success]
       head :ok
     else
-      render json: { message: 'Categoy not found' }, status: 404
+      render json: response, status: 404
     end
   end
 
   def destroy_all
-    Category.destroy_all
+    CategoriesServices::DestroyAll.new.call
     head :ok
   end
 
