@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("DB_HOST") { 'localhost' } %>
+  port: <%= ENV.fetch('DB_PORT') { '5432' } %>
+  username: <%= ENV.fetch('DB_USERNAME') { 'postgres' } %>
+  password: <%= ENV.fetch('RECRUITEO_DATABASE_PASSWORD') { 'postgres' } %>
+
+development:
+  <<: *default
+  database: <%= ENV['DB_NAME'] %>
+test:
+  <<: *default
+  database: <%= ENV['DB_NAME'] %>_test
+staging:
+  <<: *default
+  url: <%= ENV['DB_URL'] %>
+
+production:
+  <<: *default
+  url: <%= ENV['DB_URL'] %>
