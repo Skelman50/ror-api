@@ -23,7 +23,6 @@ class CategoryConcept
       else
         options[:error] = { message: category.errors[:title][0] }
         false
-
       end
     end
   end

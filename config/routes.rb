@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     end
 
     resources :questions, only: %i[create] do
+      put :set_category
     end
   end
 end

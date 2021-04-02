@@ -11,4 +11,19 @@ class Api::QuestionsController < ApplicationController
       error_handler(result)
     end
   end
+
+  def set_category
+    result = QuestionConcept::SetCategory.call(params: set_category_params)
+    if result.success?
+      head :ok
+    else
+      error_handler(result)
+    end
+  end
+
+  private
+
+  def set_category_params
+    params.permit(:question_id, :categoryId)
+  end
 end
