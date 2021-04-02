@@ -4,39 +4,49 @@ class Api::CategoriesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    render json: CategoriesServices::GetAll.new.call
+    result = CategoryConcept::GetAll.call
+    render json: result[:categories] if result.success?
   end
 
   def create
-    response = CategoriesServices::Create.new(categories_params).call
-    if response[:success]
+    result = CategoryConcept::Create.call(params: categories_params)
+    if result.success?
       head :ok
     else
-      render json: response, status: 400
+      error_handler(result)
     end
   end
 
   def update
-    response = CategoriesServices::Update.new(categories_params, params[:id]).call
-    if response[:success]
+    result = CategoryConcept::Update.call(params: categories_params, id: params[:id])
+    if result.success?
       head :ok
     else
-      render json: response, status: 404
+      render json: result[:error], status: 404
     end
   end
 
-  def destroy_by_id
-    response = CategoriesServices::DestroyById.new(params).call
-    if response[:success]
+  def destroy
+    result = CategoryConcept::Destroy.call(id: params[:id])
+    if result.success?
       head :ok
     else
-      render json: response, status: 404
+      render json: result[:error], status: 404
     end
   end
 
   def destroy_all
-    CategoriesServices::DestroyAll.new.call
-    head :ok
+    result = CategoryConcept::DestroyAll.call
+    if result.success?
+      head :ok
+    else
+      render json: result[:error], status: 404
+    end
+  end
+
+  def show
+    result = CategoryConcept::Show.call(id: params[:id])
+    render json: { response: result[:response] } if result.success?
   end
 
   private

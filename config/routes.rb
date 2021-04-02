@@ -2,10 +2,11 @@
 
 Rails.application.routes.draw do
   namespace :api do
-    get '/categories', to: 'categories#index'
-    post '/categories/create', to: 'categories#create'
-    put '/categories/:id', to: 'categories#update'
-    delete '/categories/:id', to: 'categories#destroy_by_id'
-    delete '/categories', to: 'categories#destroy_all'
+    resources :categories, only: %i[create index update destroy show] do
+      delete '/', to: 'categories#destroy_all', on: :collection
+    end
+
+    resources :questions, only: %i[create] do
+    end
   end
 end
