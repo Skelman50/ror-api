@@ -25,7 +25,7 @@ class QuestionConcept
     def create_answers(params, question)
       answers = JSON.parse(params[:answers])
       answers.each do |answer|
-        Answer.create!(isTrue: answer[:isTrue], displayMessage: answer[:displayMessage], title: answer[:title], description: answer[:description], question_id: question.id)
+        Answer.create!(isTrue: answer['isTrue'], displayMessage: answer['displayMessage'], title: answer['title'], description: answer['description'], question_id: question.id)
       end
     end
 
