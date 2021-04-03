@@ -8,7 +8,8 @@ class QuestionConcept
       ActiveRecord::Base.transaction do
         question = create_question(params)
         create_answers(params, question)
-        create_image(question, params)
+        image = upload_image(question, params)
+        create_image(question, params, image)
       end
     rescue StandardError => e
       options[:error] = generate_error(e)
@@ -28,12 +29,17 @@ class QuestionConcept
       end
     end
 
-    def create_image(question, params)
-      Image.create!(question_id: question.id, image: params[:image])
+    def create_image(question, params, image)
+      Image.create!(question_id: question.id, image: params[:image], url: image['url'])
     end
 
     def generate_error(e)
       { message: e.message.split(': ')[1].split(' ').drop(1).join(' '), status: 400 }
+    end
+
+    def upload_image(question, params)
+      Cloudinary::Uploader.upload(params[:image].tempfile.path,
+                                  folder: ENV['CLOUDINARY_FOLDER'], public_id: question.id, overwrite: true)
     end
   end
 end

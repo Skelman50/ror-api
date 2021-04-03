@@ -8,7 +8,7 @@ class CreateAnswers < ActiveRecord::Migration[6.0]
       t.text :description
       t.boolean :isTrue
 
-      t.references :question, null: false, foreign_key: true, type: :uuid
+      t.references :question, null: false, foreign_key: { on_delete: :cascade }, type: :uuid
 
       t.timestamps
     end

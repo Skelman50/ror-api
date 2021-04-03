@@ -6,9 +6,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3', '>= 6.0.3.6'
-
+gem 'cloudinary'
 gem 'pg'
+gem 'rails', '~> 6.0.3', '>= 6.0.3.6'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
@@ -53,8 +53,6 @@ group :test do
   gem 'webdrivers'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'dotenv-rails'
 gem 'rack-cors'
 gem 'trailblazer-rails'
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

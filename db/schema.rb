@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2021_04_02_202902) do
     t.index ["category_id"], name: "index_questions_on_category_id"
   end
 
-  add_foreign_key "answers", "questions"
-  add_foreign_key "images", "questions"
-  add_foreign_key "questions", "categories"
+  add_foreign_key "answers", "questions", on_delete: :cascade
+  add_foreign_key "images", "questions", on_delete: :cascade
+  add_foreign_key "questions", "categories", on_delete: :cascade
 end
