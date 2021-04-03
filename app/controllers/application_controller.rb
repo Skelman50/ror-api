@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::Base
   def error_handler(result)
-    render json: result[:error] || default_error, status: result[:status] || default_error[:status]
+    render json: result[:error] || default_error, status: result[:error][:status] || default_error[:status]
   end
 
   private

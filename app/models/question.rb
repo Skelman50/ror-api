@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Question < ApplicationRecord
-  validates :title, presence: true, length: { minimum: 3 }
+  validates :title, length: { minimum: 3, message: 'Недостатньо символів (необхідно мінімум 3)' }
 
   belongs_to :category
   has_one :image, dependent: :destroy

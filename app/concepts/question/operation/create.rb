@@ -2,20 +2,38 @@
 
 class QuestionConcept
   class Create < ApplicationOperation
-    step :create_category
-    step :valid_category
+    step :start_transition
 
-    def create_category(options, params:, **)
-      options[:category] = Category.create(params)
+    def start_transition(options, params:, **)
+      ActiveRecord::Base.transaction do
+        question = create_question(params)
+        create_answers(params, question)
+        create_image(question, params)
+      end
+    rescue StandardError => e
+      options[:error] = generate_error(e)
+      false
     end
 
-    def valid_category(options, category:, **)
-      if category.valid?
-        true
-      else
-        options[:error] = { message: category.errors[:title][0], status: 400 }
-        false
+    private
+
+    def create_question(params)
+      Question.create!(title: params[:title], category_id: params[:category_id])
+    end
+
+    def create_answers(params, question)
+      answers = JSON.parse(params[:answers])
+      answers.each do |answer|
+        Answer.create!(isTrue: answer[:isTrue], displayMessage: answer[:displayMessage], title: answer[:title], description: answer[:description], question_id: question.id)
       end
+    end
+
+    def create_image(question, params)
+      Image.create!(question_id: question.id, image: params[:image])
+    end
+
+    def generate_error(e)
+      { message: e.message.split(': ')[1].split(' ').drop(1).join(' '), status: 400 }
     end
   end
 end
