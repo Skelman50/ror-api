@@ -2,10 +2,11 @@
 
 module QuestionsPresenters
   class Item
-    attr_reader :item
+    attr_reader :item, :show_answers
 
-    def initialize(item)
+    def initialize(item, show_answers)
       @item = item
+      @show_answers = show_answers
     end
 
     def call
@@ -15,7 +16,11 @@ module QuestionsPresenters
     private
 
     def merge_attributes
-      { image: @item.image, category: @item.category }
+      if !show_answers
+        { image: @item.image, category: @item.category }
+      else
+        { image: @item.image, category: @item.category, answers: @item.answers }
+      end
     end
   end
 end

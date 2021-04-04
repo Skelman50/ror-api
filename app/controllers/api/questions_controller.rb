@@ -8,6 +8,15 @@ class Api::QuestionsController < ApplicationController
     render json: { response: result[:response] } if result.success?
   end
 
+  def show
+    result = QuestionConcept::Show.call(params: params)
+    if result.success?
+      render json: { response: result[:response] }
+    else
+      error_handler(result)
+    end
+  end
+
   def create
     result = QuestionConcept::Create.call(params: params)
     if result.success?
