@@ -26,6 +26,15 @@ class Api::QuestionsController < ApplicationController
     end
   end
 
+  def update
+    result = QuestionConcept::Update.call(params: params)
+    if result.success?
+      head :ok
+    else
+      error_handler(result)
+    end
+  end
+
   def set_category
     result = QuestionConcept::SetCategory.call(params: set_category_params)
     if result.success?

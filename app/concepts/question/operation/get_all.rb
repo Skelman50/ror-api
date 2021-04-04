@@ -7,7 +7,7 @@ class QuestionConcept
     step :prepare_json
 
     def find_questions(options, params:, **)
-      questions = Question.all.limit(params[:limit]).offset(params[:offset])
+      questions = Question.order(created_at: :desc).all.limit(params[:limit]).offset(params[:offset])
       items = QuestionsPresenters::Collection.new(questions).call
       options[:items] = items[:response]
       options[:questions] = questions

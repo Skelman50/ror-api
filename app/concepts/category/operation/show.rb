@@ -19,7 +19,7 @@ class CategoryConcept
     end
 
     def find_category_questions(options, category:, params:, **)
-      questions = category.questions.limit(params[:limit]).offset(params[:offset])
+      questions = category.questions.order(created_at: :desc).limit(params[:limit]).offset(params[:offset])
       items = QuestionsPresenters::Collection.new(questions).call
       options[:items] = items[:response]
     end
