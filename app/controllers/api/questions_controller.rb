@@ -18,7 +18,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def create
-    result = QuestionConcept::Create.call(params: params)
+    result = QuestionConcept::Create.call(params: questions_params)
     if result.success?
       head :ok
     else
@@ -27,7 +27,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def update
-    result = QuestionConcept::Update.call(params: params)
+    result = QuestionConcept::Update.call(params: questions_params)
     if result.success?
       head :ok
     else
@@ -66,5 +66,9 @@ class Api::QuestionsController < ApplicationController
 
   def set_category_params
     params.permit(:question_id, :categoryId)
+  end
+
+  def questions_params
+    params.permit(:title, :answers, :image, :category_id)
   end
 end

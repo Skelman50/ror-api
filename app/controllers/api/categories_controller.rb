@@ -57,6 +57,6 @@ class Api::CategoriesController < ApplicationController
   private
 
   def categories_params
-    params.permit(:title, :is_active)
+    params.require(:category).permit(:title, :is_active)
   end
 end
