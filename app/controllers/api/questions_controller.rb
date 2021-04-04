@@ -44,6 +44,15 @@ class Api::QuestionsController < ApplicationController
     end
   end
 
+  def destroy
+    result = QuestionConcept::Destroy.call(id: params[:id])
+    if result.success?
+      head :ok
+    else
+      error_handler(result)
+    end
+  end
+
   private
 
   def set_category_params

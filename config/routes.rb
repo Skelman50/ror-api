@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       get :find_by_phrase, on: :collection
     end
 
-    resources :questions, only: %i[create index show update] do
+    resources :questions, only: %i[create index show update destroy] do
       put :set_category
     end
   end
