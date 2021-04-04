@@ -45,7 +45,7 @@ class Api::CategoriesController < ApplicationController
   end
 
   def show
-    result = CategoryConcept::Show.call(id: params[:id])
+    result = CategoryConcept::Show.call(params: params)
     render json: { response: result[:response] } if result.success?
   end
 

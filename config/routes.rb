@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       delete '/', to: 'categories#destroy_all', on: :collection
     end
 
-    resources :questions, only: %i[create] do
+    resources :questions, only: %i[create index] do
       put :set_category
     end
   end

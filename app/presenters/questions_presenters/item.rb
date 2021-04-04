@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module CategoryQuestionsPresenters
+module QuestionsPresenters
   class Item
     attr_reader :item
 

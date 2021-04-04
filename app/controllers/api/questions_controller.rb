@@ -3,6 +3,11 @@
 class Api::QuestionsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  def index
+    result = QuestionConcept::GetAll.call(params: params)
+    render json: { response: result[:response] } if result.success?
+  end
+
   def create
     result = QuestionConcept::Create.call(params: params)
     if result.success?
