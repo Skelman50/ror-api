@@ -3,7 +3,6 @@
 class CategoryConcept
   class Destroy < ApplicationOperation
     step :find_category
-    step :delete_category_imagies_from_cloudinary
     step :destroy
 
     def find_category(options, id:, **)
@@ -17,12 +16,8 @@ class CategoryConcept
       end
     end
 
-    def delete_category_imagies_from_cloudinary(_options, category:, **)
-      CategoryServices::DeleteCategoryImagiesFromCloudinary.new(category).call
-    end
-
     def destroy(_options, category:, **)
-      category.destroy
+      CategoryServices::Destroy.new(category).call
     end
   end
 end

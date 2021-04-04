@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CategoryServices
-  class DeleteAllImagiesFromCloudinary
+  class DestroyAll
     attr_reader :categories
 
     def initialize(categories)
@@ -13,7 +13,7 @@ module CategoryServices
         questions = category.questions
         CloudinaryServices::DeleteAll.new(questions).call
       end
-      categories.destroy_all
+      @categories.destroy_all
     end
   end
 end
