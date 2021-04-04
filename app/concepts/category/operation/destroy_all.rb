@@ -5,7 +5,7 @@ class CategoryConcept
     step :destroy_all
 
     def destroy_all(_options, **)
-      Category.destroy_all
+      CategoryServices::DestroyAll.new.call
     end
   end
 end

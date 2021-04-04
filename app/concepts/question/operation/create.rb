@@ -25,7 +25,11 @@ class QuestionConcept
     def create_answers(params, question)
       answers = JSON.parse(params[:answers])
       answers.each do |answer|
-        Answer.create!(isTrue: answer['isTrue'], displayMessage: answer['displayMessage'], title: answer['title'], description: answer['description'], question_id: question.id)
+        Answer.create!({ isTrue: answer['isTrue'],
+                         displayMessage: answer['displayMessage'],
+                         title: answer['title'],
+                         description: answer['description'],
+                         question_id: question.id })
       end
     end
 
@@ -34,12 +38,11 @@ class QuestionConcept
     end
 
     def generate_error(e)
-      { message: e.message.split(': ')[1].split(' ').drop(1).join(' '), status: 400 }
+      { message: e }
     end
 
     def upload_image(question, params)
-      Cloudinary::Uploader.upload(params[:image].tempfile.path,
-                                  folder: ENV['CLOUDINARY_FOLDER'], public_id: question.id, overwrite: true)
+      CloudinaryServices::Upload.new(params, question).call
     end
   end
 end

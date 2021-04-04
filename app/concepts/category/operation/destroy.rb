@@ -17,7 +17,7 @@ class CategoryConcept
     end
 
     def destroy_category(_options, category:, **)
-      category.destroy
+      CategoryServices::Destroy.new(category).call
     end
   end
 end
