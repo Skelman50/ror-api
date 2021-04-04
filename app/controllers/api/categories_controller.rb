@@ -49,6 +49,11 @@ class Api::CategoriesController < ApplicationController
     render json: { response: result[:response] } if result.success?
   end
 
+  def find_by_phrase
+    result = CategoryConcept::FindByPhrase.call(params: params)
+    render json: { response: result[:response][:response] } if result.success?
+  end
+
   private
 
   def categories_params
