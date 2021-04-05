@@ -69,6 +69,6 @@ class Api::QuestionsController < ApplicationController
   end
 
   def questions_params
-    params.permit(:title, :answers, :image, :category_id)
+    params.permit(:title, :answers, :image, :category_id, :id)
   end
 end

@@ -5,6 +5,7 @@ class CategoryConcept
     step :get_phrase
     step :find_in_category
     step :find_in_questions
+    step :find_in_answers
     step :get_categories
 
     def get_phrase(options, params:, **)
@@ -16,18 +17,25 @@ class CategoryConcept
     end
 
     def find_in_questions(options, phrase:, **)
-      categories = Category.all
-      categories_questions = categories.map do |c|
-        c.questions.where('questions.title ILIKE ?', "%#{phrase}%")
-      end
-      result = categories_questions.flatten.map(&:category)
-
-      options[:in_questions] = result.uniq
+      questions = Question.where('title ILIKE ?', "%#{phrase}%")
+      options[:in_questions] = questions.map(&:category).uniq
     end
 
-    def get_categories(options, in_categories:, in_questions:, **)
-      response = in_categories + in_questions
+    def find_in_answers(options, phrase:, **)
+      answers = Answer.where(find_in_answers_query, "%#{phrase}%", "%#{phrase}%", "%#{phrase}%")
+      questions = answers.map(&:question).uniq
+      options[:in_answers] = questions.map(&:category).uniq
+    end
+
+    def get_categories(options, in_categories:, in_questions:, in_answers:, **)
+      response = in_categories + in_questions + in_answers
       options[:response] = CategoryPresenters::Collection.new(response.uniq).call
+    end
+
+    private
+
+    def find_in_answers_query
+      'title ILIKE ? OR "displayMessage" ILIKE ? OR description ILIKE ?'
     end
   end
 end
