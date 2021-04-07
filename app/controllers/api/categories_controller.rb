@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class Api::CategoriesController < ApplicationController
-
   def index
-    result = Category::GetAll.call
+    result = Category::Operation::GetAll.call
     render json: result[:categories] if result.success?
   end
 
   def create
-    result = Category::Create.call(params: categories_params)
+    result = Category::Operation::Create.call(params: categories_params)
     if result.success?
       head :ok
     else
@@ -17,7 +16,7 @@ class Api::CategoriesController < ApplicationController
   end
 
   def update
-    result = Category::Update.call(params: categories_params, id: params[:id])
+    result = Category::Operation::Update.call(params: categories_params, id: params[:id])
     if result.success?
       head :ok
     else
@@ -26,7 +25,7 @@ class Api::CategoriesController < ApplicationController
   end
 
   def destroy
-    result = Category::Destroy.call(id: params[:id])
+    result = Category::Operation::Destroy.call(id: params[:id])
     if result.success?
       head :ok
     else
@@ -35,7 +34,7 @@ class Api::CategoriesController < ApplicationController
   end
 
   def destroy_all
-    result = Category::DestroyAll.call
+    result = Category::Operation::DestroyAll.call
     if result.success?
       head :ok
     else
@@ -44,12 +43,12 @@ class Api::CategoriesController < ApplicationController
   end
 
   def show
-    result = Category::Show.call(params: params)
+    result = Category::Operation::Show.call(params: params)
     render json: { response: result[:response] } if result.success?
   end
 
   def find_by_phrase
-    result = Category::FindByPhrase.call(params: params)
+    result = Category::Operation::FindByPhrase.call(params: params)
     render json: { response: result[:response][:response] } if result.success?
   end
 

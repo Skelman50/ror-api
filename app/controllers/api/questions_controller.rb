@@ -2,12 +2,12 @@
 
 class Api::QuestionsController < ApplicationController
   def index
-    result = Question::GetAll.call(params: params)
+    result = Question::Operation::GetAll.call(params: params)
     render json: { response: result[:response] } if result.success?
   end
 
   def show
-    result = Question::Show.call(params: params)
+    result = Question::Operation::Show.call(params: params)
     if result.success?
       render json: { response: result[:response] }
     else
@@ -16,7 +16,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def create
-    result = Question::Create.call(params: questions_params)
+    result = Question::Operation::Create.call(params: questions_params)
     if result.success?
       head :ok
     else
@@ -25,7 +25,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def update
-    result = Question::Update.call(params: questions_params)
+    result = Question::Operation::Update.call(params: questions_params)
     if result.success?
       head :ok
     else
@@ -34,7 +34,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def set_category
-    result = Question::SetCategory.call(params: set_category_params)
+    result = Question::Operation::SetCategory.call(params: set_category_params)
     if result.success?
       head :ok
     else
@@ -43,7 +43,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def destroy
-    result = Question::Destroy.call(id: params[:id])
+    result = Question::Operation::Destroy.call(id: params[:id])
     if result.success?
       head :ok
     else
@@ -52,7 +52,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def destroy_all
-    result = Question::DestroyAll.call(params: params)
+    result = Question::Operation::DestroyAll.call(params: params)
     if result.success?
       head :ok
     else
