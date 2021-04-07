@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CategoryConcept
+class Category
   class GetAll < ApplicationOperation
     step :get_categories
 

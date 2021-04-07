@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class QuestionConcept
+class Question
   class Destroy < ApplicationOperation
     step :find_question
     step :delete_image_from__cloudinary

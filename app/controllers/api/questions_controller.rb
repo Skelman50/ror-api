@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 class Api::QuestionsController < ApplicationController
-  skip_before_action :verify_authenticity_token
-
   def index
-    result = QuestionConcept::GetAll.call(params: params)
+    result = Question::GetAll.call(params: params)
     render json: { response: result[:response] } if result.success?
   end
 
   def show
-    result = QuestionConcept::Show.call(params: params)
+    result = Question::Show.call(params: params)
     if result.success?
       render json: { response: result[:response] }
     else
@@ -18,7 +16,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def create
-    result = QuestionConcept::Create.call(params: questions_params)
+    result = Question::Create.call(params: questions_params)
     if result.success?
       head :ok
     else
@@ -27,7 +25,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def update
-    result = QuestionConcept::Update.call(params: questions_params)
+    result = Question::Update.call(params: questions_params)
     if result.success?
       head :ok
     else
@@ -36,7 +34,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def set_category
-    result = QuestionConcept::SetCategory.call(params: set_category_params)
+    result = Question::SetCategory.call(params: set_category_params)
     if result.success?
       head :ok
     else
@@ -45,7 +43,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def destroy
-    result = QuestionConcept::Destroy.call(id: params[:id])
+    result = Question::Destroy.call(id: params[:id])
     if result.success?
       head :ok
     else
@@ -54,7 +52,7 @@ class Api::QuestionsController < ApplicationController
   end
 
   def destroy_all
-    result = QuestionConcept::DestroyAll.call(params: params)
+    result = Question::DestroyAll.call(params: params)
     if result.success?
       head :ok
     else

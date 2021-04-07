@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CategoryConcept
+class Category
   class Create < ApplicationOperation
     step :create_category
     step :valid_category

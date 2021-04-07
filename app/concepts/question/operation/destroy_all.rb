@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class QuestionConcept
+class Question
   class DestroyAll < ApplicationOperation
     step :find_category
     step :find_questions

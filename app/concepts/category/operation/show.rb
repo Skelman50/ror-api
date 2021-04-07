@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CategoryConcept
+class Category
   class Show < ApplicationOperation
     step :find_category
     step :find_category_questions

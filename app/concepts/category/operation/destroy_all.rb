@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CategoryConcept
+class Category
   class DestroyAll < ApplicationOperation
     step :get_all_categories
     step :destroy_all

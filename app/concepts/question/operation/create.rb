@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class QuestionConcept
+class Question
   class Create < ApplicationOperation
     step :parse_answers
     step :true_answer?

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class QuestionConcept
+class Question
   class GetAll < ApplicationOperation
     step :find_questions
     step :find_questions_count

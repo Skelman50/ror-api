@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
 class Api::CategoriesController < ApplicationController
-  skip_before_action :verify_authenticity_token
 
   def index
-    result = CategoryConcept::GetAll.call
+    result = Category::GetAll.call
     render json: result[:categories] if result.success?
   end
 
   def create
-    result = CategoryConcept::Create.call(params: categories_params)
+    result = Category::Create.call(params: categories_params)
     if result.success?
       head :ok
     else
@@ -18,7 +17,7 @@ class Api::CategoriesController < ApplicationController
   end
 
   def update
-    result = CategoryConcept::Update.call(params: categories_params, id: params[:id])
+    result = Category::Update.call(params: categories_params, id: params[:id])
     if result.success?
       head :ok
     else
@@ -27,7 +26,7 @@ class Api::CategoriesController < ApplicationController
   end
 
   def destroy
-    result = CategoryConcept::Destroy.call(id: params[:id])
+    result = Category::Destroy.call(id: params[:id])
     if result.success?
       head :ok
     else
@@ -36,7 +35,7 @@ class Api::CategoriesController < ApplicationController
   end
 
   def destroy_all
-    result = CategoryConcept::DestroyAll.call
+    result = Category::DestroyAll.call
     if result.success?
       head :ok
     else
@@ -45,12 +44,12 @@ class Api::CategoriesController < ApplicationController
   end
 
   def show
-    result = CategoryConcept::Show.call(params: params)
+    result = Category::Show.call(params: params)
     render json: { response: result[:response] } if result.success?
   end
 
   def find_by_phrase
-    result = CategoryConcept::FindByPhrase.call(params: params)
+    result = Category::FindByPhrase.call(params: params)
     render json: { response: result[:response][:response] } if result.success?
   end
 
