@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CategoryConcept
+class Category
   class Show < ApplicationOperation
     step :find_category
     step :find_category_questions
@@ -30,8 +30,8 @@ class CategoryConcept
 
     def prepare_json(options, category:, items:, count:, **)
       options[:response] = {
-        items: items,
-        count: count,
+        # items: items,
+        # count: count,
         category: category
       }
     end

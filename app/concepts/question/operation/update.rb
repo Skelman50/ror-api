@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class QuestionConcept
+class Question
   class Update < ApplicationOperation
     step :find_question
     step :find_question_image

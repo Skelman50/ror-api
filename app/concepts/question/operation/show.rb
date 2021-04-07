@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class QuestionConcept
+class Question
   class Show < ApplicationOperation
     step :find_question
 

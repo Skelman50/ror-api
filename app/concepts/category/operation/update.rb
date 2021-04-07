@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CategoryConcept
+class Category
   class Update < ApplicationOperation
     step :find_category
     step :update_category

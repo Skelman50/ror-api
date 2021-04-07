@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CategoryConcept
+class Category
   class FindByPhrase < ApplicationOperation
     step :get_phrase
     step :find_in_category
