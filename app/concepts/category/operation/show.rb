@@ -30,8 +30,8 @@ class Category
 
     def prepare_json(options, category:, items:, count:, **)
       options[:response] = {
-        items: items,
-        count: count,
+        # items: items,
+        # count: count,
         category: category
       }
     end
