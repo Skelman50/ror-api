@@ -60,6 +60,15 @@ class Api::QuestionsController < ApplicationController
     end
   end
 
+  def find_by_phrase
+    result = Question::Operation::FindByPhrase.call(params: params)
+    if result.success?
+      head :ok
+    else
+      error_handler(result)
+    end
+  end
+
   private
 
   def set_category_params

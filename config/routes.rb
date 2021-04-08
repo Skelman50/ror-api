@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :questions, only: %i[create index show update destroy] do
       delete :destroy_all, on: :collection
       put :set_category
+      get :find_by_phrase, on: :collection
     end
   end
 end
