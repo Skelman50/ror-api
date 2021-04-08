@@ -63,7 +63,7 @@ class Api::QuestionsController < ApplicationController
   def find_by_phrase
     result = Question::Operation::FindByPhrase.call(params: params)
     if result.success?
-      head :ok
+      render json: result[:response]
     else
       error_handler(result)
     end
