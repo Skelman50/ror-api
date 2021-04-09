@@ -60,11 +60,11 @@ module Question::Operation
     def start_transition(options, params:, answers:, question:, image:, **)
       ActiveRecord::Base.transaction do
         update_question(params, question)
-        update_answers(answers, question)
+        update_answers(answers)
         upload_image(question, params, image)
       end
     rescue StandardError => e
-      options[:error] = generate_error(e)
+      options[:error] = generate_transaction_error(e)
       false
     end
 
@@ -74,17 +74,14 @@ module Question::Operation
       question.update!(title: params[:title], category_id: params[:category_id])
     end
 
-    def update_answers(answers, _question)
+    def update_answers(answers)
       answers.each do |answer|
-        Answer.where(id: answer['id']).limit(1).update_all({ isTrue: answer['isTrue'],
-                                                             displayMessage: answer['displayMessage'],
-                                                             title: answer['title'],
-                                                             description: answer['description'] })
+        a = Answer.find(answer['id'])
+        a.update!({ isTrue: answer['isTrue'],
+                    displayMessage: answer['displayMessage'],
+                    title: answer['title'],
+                    description: answer['description'] })
       end
-    end
-
-    def generate_error(e)
-      { message: e }
     end
 
     def upload_image(question, params, image)

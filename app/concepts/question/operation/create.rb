@@ -41,11 +41,11 @@ module Question::Operation
       ActiveRecord::Base.transaction do
         question = create_question(params)
         create_answers(answers, question)
-        image = upload_image(question, params)
-        create_image(question, params, image)
+        image = CloudinaryServices::Upload.new(params, question).call
+        Image.create!(question_id: question.id, image: params[:image], url: image['url'])
       end
     rescue StandardError => e
-      options[:error] = generate_error(e)
+      options[:error] = generate_transaction_error(e)
       false
     end
 
@@ -63,18 +63,6 @@ module Question::Operation
                          description: answer['description'],
                          question_id: question.id })
       end
-    end
-
-    def create_image(question, params, image)
-      Image.create!(question_id: question.id, image: params[:image], url: image['url'])
-    end
-
-    def generate_error(e)
-      { message: e }
-    end
-
-    def upload_image(question, params)
-      CloudinaryServices::Upload.new(params, question).call
     end
   end
 end
