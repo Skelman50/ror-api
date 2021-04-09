@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Api::CategoriesController < ApplicationController
+  before_action :authorized
   def index
     result = Category::Operation::GetAll.call
     render json: result[:categories] if result.success?

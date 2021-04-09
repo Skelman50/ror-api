@@ -16,4 +16,9 @@ class ApplicationOperation < Trailblazer::Operation
       { message: item.errors[:title][0], status: 400, error: true }
     end
   end
+
+  def encode_token(payload)
+    payload[:exp] = Time.now.to_i + Integer(ENV['JWT_EXP'])
+    JWT.encode(payload, ENV['JWT_SECRET'])
+  end
 end

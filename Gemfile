@@ -53,6 +53,8 @@ group :test do
   gem 'webdrivers'
 end
 
+gem 'bcrypt'
 gem 'dotenv-rails'
+gem 'jwt'
 gem 'rack-cors'
 gem 'trailblazer-rails'

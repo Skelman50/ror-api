@@ -12,5 +12,10 @@ Rails.application.routes.draw do
       put :set_category
       get :find_by_phrase, on: :collection
     end
+
+    resources :users do
+      post :login, on: :collection
+      get :auto_login, on: :collection
+    end
   end
 end

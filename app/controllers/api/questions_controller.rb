@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Api::QuestionsController < ApplicationController
+  before_action :authorized
   def index
     result = Question::Operation::GetAll.call(params: params)
     render json: { response: result[:response] } if result.success?
