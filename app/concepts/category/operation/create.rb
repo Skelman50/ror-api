@@ -10,11 +10,12 @@ module Category::Operation
     end
 
     def valid_category(options, category:, **)
-      if category.valid?
-        true
-      else
-        options[:error] = { message: category.errors[:title][0], status: 400 }
+      result = validation_model(category)
+      if result[:error]
+        options[:error] = result
         false
+      else
+        true
       end
     end
   end

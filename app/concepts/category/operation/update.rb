@@ -3,7 +3,8 @@
 module Category::Operation
   class Update < ApplicationOperation
     step :find_category
-    step :update_category
+    pass :update_category
+    step :validation_category
 
     def find_category(options, id:, **)
       category = Category.find_by(id: id)
@@ -11,17 +12,21 @@ module Category::Operation
         options[:category] = category
         true
       else
-        options[:error] = { message: 'Category not found' }
+        options[:error] = { message: 'Category not found', status: 404 }
         false
       end
     end
 
-    def update_category(options, category:, params:, **)
+    def update_category(_options, params:, category:, **)
       category.update(params)
-      if category.valid?
+    end
+
+    def validation_category(options, category:, **)
+      result = validation_model(category)
+      if !result[:error]
         true
       else
-        options[:error] = { message: category.errors[:title][0] }
+        options[:error] = result
         false
       end
     end
