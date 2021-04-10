@@ -4,79 +4,47 @@ class Api::QuestionsController < ApplicationController
   before_action :authorized, except: [:game]
   def index
     result = Question::Operation::GetAll.call(params: params)
-    render json: { response: result[:response] } if result.success?
+    generate_response(result)
   end
 
   def show
     result = Question::Operation::Show.call(params: params)
-    if result.success?
-      render json: { response: result[:response] }
-    else
-      error_handler(result)
-    end
+    generate_response(result)
   end
 
   def create
     result = Question::Operation::Create.call(params: questions_params)
-    if result.success?
-      head :ok
-    else
-      error_handler(result)
-    end
+    generate_response(result)
   end
 
   def update
     result = Question::Operation::Update.call(params: questions_params)
-    if result.success?
-      head :ok
-    else
-      error_handler(result)
-    end
+    generate_response(result)
   end
 
   def set_category
     result = Question::Operation::SetCategory.call(params: set_category_params)
-    if result.success?
-      head :ok
-    else
-      error_handler(result)
-    end
+    generate_response(result)
   end
 
   def destroy
     result = Question::Operation::Destroy.call(id: params[:id])
-    if result.success?
-      head :ok
-    else
-      error_handler(result)
-    end
+    generate_response(result)
   end
 
   def destroy_all
     result = Question::Operation::DestroyAll.call(params: params)
-    if result.success?
-      head :ok
-    else
-      error_handler(result)
-    end
+    generate_response(result)
   end
 
   def find_by_phrase
     result = Question::Operation::FindByPhrase.call(params: params)
-    if result.success?
-      render json: result[:response]
-    else
-      error_handler(result)
-    end
+    generate_response(result)
   end
 
   def game
     result = Question::Operation::Game.call(params: params)
-    if result.success?
-      render json: result[:response]
-    else
-      error_handler(result)
-    end
+    generate_response(result)
   end
 
   private

@@ -37,13 +37,25 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def error_handler(result)
-    render json: result[:error] || default_error, status: result[:error][:status] || default_error[:status]
+  def generate_response(result)
+    if result.success?
+      if result[:response]
+        render json: { response: result[:response] }
+      else
+        head :ok
+      end
+    else
+      error_handler(result)
+    end
   end
 
   private
 
   def default_error
     { message: 'Something went wrong', status: 500 }
+  end
+
+  def error_handler(result)
+    render json: result[:error] || default_error, status: result[:error][:status] || default_error[:status]
   end
 end

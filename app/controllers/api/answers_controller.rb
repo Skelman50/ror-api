@@ -3,10 +3,6 @@
 class Api::AnswersController < ApplicationController
   def check
     result = Answer::Operation::Check.call(params: params)
-    if result.success?
-      render json: { response: result[:response] }
-    else
-      error_handler(result)
-    end
+    generate_response(result)
   end
 end

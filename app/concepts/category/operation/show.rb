@@ -20,8 +20,7 @@ module Category::Operation
 
     def find_category_questions(options, category:, params:, **)
       questions = category.questions.order(created_at: :desc).limit(params[:limit]).offset(params[:offset])
-      items = QuestionsPresenters::Collection.new(questions).call
-      options[:items] = items[:response]
+      options[:items] = QuestionsPresenters::Collection.new(questions).call
     end
 
     def find_category_questions_size(options, category:, **)
