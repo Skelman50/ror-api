@@ -90,7 +90,9 @@ module Question::Operation
       image_data = params[:image]
       if !image_data.is_a? String
         uploaded_image = CloudinaryServices::Upload.new(params, question).call
-        image.update(url: uploaded_image['url'], image: image_data)
+        file = File.open(params[:image].tempfile.path)
+        file_data = file.read
+        image.update(url: uploaded_image['url'], image: file_data)
       else
         true
       end

@@ -42,7 +42,9 @@ module Question::Operation
         question = create_question(params)
         create_answers(answers, question)
         image = CloudinaryServices::Upload.new(params, question).call
-        Image.create!(question_id: question.id, image: params[:image], url: image['url'])
+        file = File.open(params[:image].tempfile.path)
+        file_data = file.read
+        Image.create!(question_id: question.id, image: file_data, url: image['url'])
       end
     rescue StandardError => e
       options[:error] = generate_transaction_error(e)
