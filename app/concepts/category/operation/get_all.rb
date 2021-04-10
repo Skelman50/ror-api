@@ -5,8 +5,10 @@ module Category::Operation
     step :get_categories
 
     def get_categories(options, **)
-      categories = Category.order(created_at: :desc).all
-      options[:categories] = CategoryPresenters::Collection.new(categories).call
+      options[:response] = Category.joins(:questions)
+                                   .select('"categories".*, COUNT(questions.id) as questions_count')
+                                   .order(created_at: :desc)
+                                   .group('categories.id')
     end
   end
 end

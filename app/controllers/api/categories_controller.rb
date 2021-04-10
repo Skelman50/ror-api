@@ -4,7 +4,7 @@ class Api::CategoriesController < ApplicationController
   before_action :authorized, except: [:default]
   def index
     result = Category::Operation::GetAll.call
-    render json: result[:categories] if result.success?
+    render json: { response: result[:response] } if result.success?
   end
 
   def create
