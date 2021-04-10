@@ -5,7 +5,7 @@ module Category::Operation
     step :get_categories
 
     def get_categories(options, **)
-      options[:response] = Category.joins(:questions)
+      options[:response] = Category.left_outer_joins(:questions)
                                    .select('"categories".*, COUNT(questions.id) as questions_count')
                                    .order(created_at: :desc)
                                    .group('categories.id')
