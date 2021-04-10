@@ -7,7 +7,7 @@ module Question::Operation
     step :prepare_json
 
     def find_questions(options, params:, **)
-      questions = Question.eager_load(:image, :category)
+      questions = Question.includes(:image, :category)
                           .order(created_at: :desc)
                           .limit(params[:limit])
                           .offset(params[:offset])

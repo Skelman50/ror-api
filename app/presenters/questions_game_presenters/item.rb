@@ -15,10 +15,8 @@ module QuestionsGamePresenters
     private
 
     def merge_attributes
-      image = @item.image
-      answers = @item.answers
-      { image: { url: image.url },
-        answers: AnswersGamePresenters::Collection.new(answers).call }
+      { image: @item.image,
+        answers: @item.answers_for_game }
     end
   end
 end

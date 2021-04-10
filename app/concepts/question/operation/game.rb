@@ -7,7 +7,7 @@ module Question::Operation
 
     def find_questions(options, params:, **)
       options[:questions] = Question.where(category_id: params[:category_id])
-                                    .eager_load(:answers, :image)
+                                    .includes(:answers_for_game, :image)
     end
 
     def generate_response(options, questions:, **)
