@@ -9,7 +9,7 @@ module QuestionsGamePresenters
     end
 
     def call
-      { response: collection.map { |item| Item.new(item).call } }
+      collection.map { |item| Item.new(item).call }
     end
   end
 end
