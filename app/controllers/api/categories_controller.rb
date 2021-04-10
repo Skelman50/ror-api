@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::CategoriesController < ApplicationController
-  before_action :authorized
+  before_action :authorized, except: [:default]
   def index
     result = Category::Operation::GetAll.call
     render json: result[:categories] if result.success?
@@ -51,6 +51,15 @@ class Api::CategoriesController < ApplicationController
   def find_by_phrase
     result = Category::Operation::FindByPhrase.call(params: params)
     render json: { response: result[:response][:response] } if result.success?
+  end
+
+  def default
+    result = Category::Operation::Default.call
+    if result.success?
+      render json: { response: result[:response] }
+    else
+      render json: result[:error], status: 404
+    end
   end
 
   private

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  before_action :authorized
+  # before_action :authorized
 
   def auth_header
     # { Authorization: 'Bearer <token>' }

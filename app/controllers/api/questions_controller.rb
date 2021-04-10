@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::QuestionsController < ApplicationController
-  before_action :authorized
+  before_action :authorized, except: [:game]
   def index
     result = Question::Operation::GetAll.call(params: params)
     render json: { response: result[:response] } if result.success?
@@ -63,6 +63,15 @@ class Api::QuestionsController < ApplicationController
 
   def find_by_phrase
     result = Question::Operation::FindByPhrase.call(params: params)
+    if result.success?
+      render json: result[:response]
+    else
+      error_handler(result)
+    end
+  end
+
+  def game
+    result = Question::Operation::Game.call(params: params)
     if result.success?
       render json: result[:response]
     else
