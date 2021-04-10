@@ -6,7 +6,7 @@ module Question::Operation
     step :generate_response
 
     def find_questions(options, params:, **)
-      options[:questions] = Question.where(category_id: params[:category_id])
+      options[:questions] = Question.includes(:answers, :image).where(category_id: params[:category_id])
     end
 
     def generate_response(options, questions:, **)

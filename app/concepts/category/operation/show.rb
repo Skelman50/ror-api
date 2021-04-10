@@ -19,7 +19,11 @@ module Category::Operation
     end
 
     def find_category_questions(options, category:, params:, **)
-      questions = category.questions.order(created_at: :desc).limit(params[:limit]).offset(params[:offset])
+      questions = category.questions
+                          .includes(:image, :category)
+                          .order(created_at: :desc)
+                          .limit(params[:limit])
+                          .offset(params[:offset])
       options[:items] = QuestionsPresenters::Collection.new(questions).call
     end
 

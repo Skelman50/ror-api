@@ -16,8 +16,10 @@ module QuestionsPresenters
     private
 
     def merge_attributes
+      image = @item.image
+      category = @item.category
       if !show_answers
-        { image: @item.image, category: @item.category }
+        { image: { url: image.url }, category: { title: category.title, id: category.id } }
       else
         { image: @item.image, category: @item.category, answers: @item.answers }
       end

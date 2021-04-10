@@ -7,7 +7,10 @@ module Question::Operation
     step :prepare_json
 
     def find_questions(options, params:, **)
-      questions = Question.order(created_at: :desc).all.limit(params[:limit]).offset(params[:offset])
+      questions = Question.eager_load(:image, :category)
+                          .order(created_at: :desc)
+                          .limit(params[:limit])
+                          .offset(params[:offset])
       options[:items] = QuestionsPresenters::Collection.new(questions).call
       options[:questions] = questions
     end
