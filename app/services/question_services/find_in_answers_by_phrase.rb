@@ -13,9 +13,11 @@ module QuestionServices
       if @category_id
         Answer.joins(find_in_answers_join_query)
               .where(where_query_with_category, @category_id, "%#{@phrase}%", "%#{@phrase}%", "%#{@phrase}%")
+              .includes(:question)
       else
         Answer.joins(find_in_answers_join_query)
               .where(where_query_without_category, "%#{@phrase}%", "%#{@phrase}%", "%#{@phrase}%")
+              .includes(:question)
       end
     end
 

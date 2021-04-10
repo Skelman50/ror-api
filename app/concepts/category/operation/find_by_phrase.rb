@@ -17,12 +17,13 @@ module Category::Operation
     end
 
     def find_in_questions(options, phrase:, **)
-      questions = Question.where('title ILIKE ?', "%#{phrase}%")
+      questions = Question.where('title ILIKE ?', "%#{phrase}%").includes(:category)
       options[:in_questions] = questions.map(&:category).uniq
     end
 
     def find_in_answers(options, phrase:, **)
       answers = Answer.where(find_in_answers_query, "%#{phrase}%", "%#{phrase}%", "%#{phrase}%")
+                      .includes(:question)
       questions = answers.map(&:question).uniq
       options[:in_answers] = questions.map(&:category).uniq
     end
