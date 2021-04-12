@@ -12,29 +12,24 @@ module Question::Operation
       result = QuestionServices::EnsureTrueAnswer.new(answers).call
       if result[:error]
         options[:error] = result[:error]
-        false
-      else
-        options[:answers] = result[:answers]
+        return false
       end
+      options[:answers] = result[:answers]
     end
 
     def is_image_exist?(options, params:, **)
-      if params[:image] == 'null'
-        options[:error] = { message: 'Треба завантажити картинку', status: 400 }
-        false
-      else
-        true
-      end
+      return true if params[:image] != 'null'
+
+      options[:error] = { message: 'Треба завантажити картинку', status: 400 }
+      false
     end
 
     def validate_image_size(options, params:, **)
       size = params[:image].size
-      if size > 150_000
-        options[:error] = { message: 'Картинка занадто велика', status: 400 }
-        false
-      else
-        true
-      end
+      return true if size <= 150_000
+
+      options[:error] = { message: 'Картинка занадто велика', status: 400 }
+      false
     end
 
     def start_transition(options, params:, answers:, **)

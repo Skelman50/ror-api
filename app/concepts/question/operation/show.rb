@@ -6,12 +6,11 @@ module Question::Operation
 
     def find_question(options, params:, **)
       question = Question.find(params[:id])
-      if question
-        options[:response] = QuestionsPresenters::Item.new(question, true).call
-      else
+      unless question
         options[:error] = { message: 'Запитання не знайдено', status: 400 }
-        false
+        return false
       end
+      options[:response] = QuestionsPresenters::Item.new(question, true).call
     end
   end
 end

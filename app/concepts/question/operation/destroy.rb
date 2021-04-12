@@ -8,13 +8,11 @@ module Question::Operation
 
     def find_question(options, id:, **)
       question = Question.find(id)
-      if question
-        options[:question] = question
-        true
-      else
+      unless question
         options[:error] = { message: 'Question not found' }
-        false
+        return false
       end
+      options[:question] = question
     end
 
     def delete_image_from__cloudinary(_options, question:, **)

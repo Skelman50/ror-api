@@ -8,32 +8,28 @@ module Question::Operation
 
     def find_category(options, params:, **)
       category = Category.find(params[:categoryId])
-      if !category
+      unless category
         options[:error] = { message: 'Category not found', status: 404 }
-        false
-      else
-        options[:category] = category
+        return false
       end
+      options[:category] = category
     end
 
     def find_question(options, params:, **)
       question = Question.find(params[:question_id])
-      if !question
+      unless question
         options[:error] = { message: 'Question not found', status: 404 }
-        false
-      else
-        options[:question] = question
+        return false
       end
+      options[:question] = question
     end
 
     def set_category(options, category:, question:, **)
       question.update(category_id: category.id)
-      if question.valid?
-        true
-      else
-        options[:error] = { message: category.errors[:title][0] }
-        false
-      end
+      return true if question.valid?
+
+      options[:error] = { message: category.errors[:title][0] }
+      false
     end
   end
 end
