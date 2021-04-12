@@ -8,13 +8,11 @@ module Category::Operation
 
     def find_category(options, id:, **)
       category = Category.find_by(id: id)
-      if category
-        options[:category] = category
-        true
-      else
+      unless category
         options[:error] = { message: 'Category not found', status: 404 }
-        false
+        return false
       end
+      options[:category] = category
     end
 
     def update_category(_options, params:, category:, **)
@@ -23,12 +21,10 @@ module Category::Operation
 
     def validation_category(options, category:, **)
       result = validation_model(category)
-      if !result[:error]
-        true
-      else
-        options[:error] = result
-        false
-      end
+      return true unless result[:error]
+
+      options[:error] = result
+      false
     end
   end
 end

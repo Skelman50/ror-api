@@ -11,12 +11,10 @@ module Category::Operation
 
     def valid_category(options, category:, **)
       result = validation_model(category)
-      if result[:error]
-        options[:error] = result
-        false
-      else
-        true
-      end
+      return true unless result[:error]
+
+      options[:error] = result
+      false
     end
   end
 end

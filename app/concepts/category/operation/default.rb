@@ -6,12 +6,11 @@ module Category::Operation
 
     def find_default_category(options, **)
       category = Category.where(is_active: true).last
-      if category
-        options[:response] = { id: category.id }
-      else
+      unless category
         options[:error] = { message: 'Category not found', status: 404 }
-        false
+        return false
       end
+      options[:response] = { id: category.id }
     end
   end
 end

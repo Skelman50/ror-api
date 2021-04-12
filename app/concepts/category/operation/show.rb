@@ -9,13 +9,11 @@ module Category::Operation
 
     def find_category(options, params:, **)
       category = Category.find_by(id: params[:id])
-      if category
-        options[:category] = category
-        true
-      else
+      unless category
         options[:error] = { message: 'Category not found' }
-        false
+        return false
       end
+      options[:category] = category
     end
 
     def find_category_questions(options, category:, params:, **)
