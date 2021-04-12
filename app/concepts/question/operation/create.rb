@@ -34,32 +34,13 @@ module Question::Operation
 
     def start_transition(options, params:, answers:, **)
       ActiveRecord::Base.transaction do
-        question = create_question(params)
-        create_answers(answers, question)
-        image = CloudinaryServices::Upload.new(params, question).call
-        file = File.open(params[:image].tempfile.path)
-        file_data = file.read
-        Image.create!(question_id: question.id, image: file_data, url: image['url'])
+        question = Question.create!(title: params[:title], category_id: params[:category_id])
+        AnswerServices::CreateAnswers.new(answers, question).call
+        ImageServices::Create.new(question, params).call
       end
     rescue StandardError => e
       options[:error] = generate_transaction_error(e)
       false
-    end
-
-    private
-
-    def create_question(params)
-      Question.create!(title: params[:title], category_id: params[:category_id])
-    end
-
-    def create_answers(answers, question)
-      answers.each do |answer|
-        Answer.create!({ isTrue: answer['isTrue'],
-                         displayMessage: answer['displayMessage'],
-                         title: answer['title'],
-                         description: answer['description'],
-                         question_id: question.id })
-      end
     end
   end
 end
