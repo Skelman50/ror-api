@@ -8,7 +8,7 @@ module Question::Operation
     step :true_answer?
     step :is_image_exist?
     step :validate_image_size
-    step :start_transition
+    step :start_transaction
 
     def find_question(options, params:, **)
       question = Question.find(params[:id])
@@ -50,43 +50,15 @@ module Question::Operation
       false
     end
 
-    def start_transition(options, params:, answers:, question:, image:, **)
+    def start_transaction(options, params:, answers:, question:, image:, **)
       ActiveRecord::Base.transaction do
-        update_question(params, question)
-        update_answers(answers)
-        upload_image(question, params, image)
+        question.update!(title: params[:title], category_id: params[:category_id])
+        AnswerServices::UpdateAnswers.new(answers).call
+        ImageServices::Update.new(question, params, image).call
       end
     rescue StandardError => e
       options[:error] = generate_transaction_error(e)
       false
-    end
-
-    private
-
-    def update_question(params, question)
-      question.update!(title: params[:title], category_id: params[:category_id])
-    end
-
-    def update_answers(answers)
-      answers.each do |answer|
-        a = Answer.find(answer['id'])
-        raise 'Answer not found!' unless a
-
-        a.update!({ isTrue: answer['isTrue'],
-                    displayMessage: answer['displayMessage'],
-                    title: answer['title'],
-                    description: answer['description'] })
-      end
-    end
-
-    def upload_image(question, params, image)
-      image_data = params[:image]
-      return true if image_data.is_a? String
-
-      uploaded_image = CloudinaryServices::Upload.new(params, question).call
-      file = File.open(params[:image].tempfile.path)
-      file_data = file.read
-      image.update(url: uploaded_image['url'], image: file_data)
     end
   end
 end
