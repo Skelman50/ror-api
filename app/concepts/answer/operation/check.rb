@@ -6,12 +6,11 @@ module Answer::Operation
 
     def get_answer(options, params:, **)
       answer = Answer.find(params[:answer_id])
-
-      if answer
-        options[:response] = answer
-      else
+      unless answer
         options[:error] = { message: 'Answer not found', status: 404 }
       end
+      options[:response] = answer
+      false
     end
   end
 end
